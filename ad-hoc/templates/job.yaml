@@ -8,17 +8,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.replicaCount }}
-  revisionHistoryLimit: 3
-  selector:
-    matchLabels:
-      app: {{ template "ansible-adhoc.name" . }}
-      release: {{ .Release.Name }}
   template:
-    metadata:
-      labels:
-        app: {{ template "ansible-adhoc.name" . }}
-        release: {{ .Release.Name }}
     spec:
       restartPolicy: Never
       containers:
