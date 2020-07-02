@@ -15,4 +15,4 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: "ansible localhost -m shell -a 'echo $TERM'"
+          command: ["ansible", "localhost", "-m", "shell", "-a", "'echo $TERM'"]
