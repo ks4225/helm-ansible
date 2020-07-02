@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Job
+metadata:
+  name: {{ template "ansible-adhoc.fullname" . }}
+  labels:
+    app: {{ template "ansible-adhoc.name" . }}
+    chart: {{ template "ansible-adhoc.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: {{ template "ansible-adhoc.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "ansible-adhoc.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: "ansible localhost -m shell -a 'echo $TERM'"
